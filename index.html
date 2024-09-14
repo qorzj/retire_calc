@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>[x-cloak]{display:none}</style>
+    <!-- Include the TailwindCSS library on your page -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="/static/script/tailwindcss_3.4.5.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='/static/assets/favicon.ico' media='screen' />
+    <!--Import Google Icon Font-->
+    <link href="/static/css/icons.css" rel="stylesheet" type='text/css' />
+    <link href="/static/css/site.css" rel="stylesheet" type='text/css' />
+    
+    <title>monte carlo</title>
+    
+</head>
+
+<body>
+    
+<div class="bg-blue-50 flex justify-center items-center min-h-screen p-4">
+    <div class="bg-white rounded-3xl shadow-lg p-6 w-full max-w-[375px] mx-auto" x-data="pageData()">
+        <h1 class="text-2xl font-bold mb-8 text-center">退休计算器</h1>
+        
+        <div class="mb-6 bg-gray-50 rounded-xl p-4">
+            <div class="flex items-center space-x-6">
+                <label class="flex items-center">
+                    <input type="radio" x-model="gender" value="MALE" class="form-radio text-blue-600 h-5 w-5" @change="showLegalAge = false">
+                    <span class="ml-2 text-lg">男</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" x-model="gender" value="FEMALE" class="form-radio text-blue-600 h-5 w-5" @change="showLegalAge = true">
+                    <span class="ml-2 text-lg">女</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">出生日期</label>
+            <select x-model="birthYM" class="w-full p-3 border rounded-xl text-lg">
+                <template x-for="item in ymList">
+                    <option :value="item.val" x-text="item.show" :selected="item.val==birthYM"></option>
+                </template>
+            </select>
+        </div>
+        
+        <div class="mb-6" x-show="showLegalAge">
+            <select x-model="legalRetirementAge" class="w-full p-3 border rounded-xl text-lg">
+                <option value="50" selected>原法定退体年龄五十周岁</option>
+                <option value="55">原法定退体年龄五十五周岁</option>
+            </select>
+        </div>
+        
+        <div class="mb-8" x-show="showResult">
+            <p class="font-semibold text-gray-600">改革后退休时间</p>
+            <p class="text-3xl mt-2 text-center" x-text="calcResult"></p>
+        </div>
+        
+        <button @click="calculateRetirement()" class="w-full bg-[#4775f5] text-white py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300">计算</button>
+        
+        <p class="text-xs text-gray-500 mt-6 text-center">
+            根据您输入的数据，我们将计算出您的改革后退休时间。
+        </p>
+        <p class="text-xs text-gray-500 mt-6 text-center">
+            Copyright 2024 © <a href="https://www.parsec.com.cn">秒差距科技</a>
+        </p>
+    </div>
+</div>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <script src="/static/script/bundle_e701138f.js"></script>
+    
+<script>
+const ymList = [];
+for (let y=1964;y<=2024;y++) {
+    for (let m=1;m<=12;m++) {
+        if (m < 10) 
+            ymList.push({val: `${y}0${m}`, show: `${y}年${m}月`});
+        else
+            ymList.push({val: `${y}${m}`, show: `${y}年${m}月`});
+    }
+}
+require('/src/__init__.js').initCalc();
+console.log('calc page ready.');
+</script>
+
+</body>
+</html>
